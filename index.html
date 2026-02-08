@@ -1,0 +1,1506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Learning Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary-color: #10b981;
+            --danger-color: #ef4444;
+            --warning-color: #f59e0b;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+            --bg-primary: #ffffff;
+            --bg-secondary: #f3f4f6;
+            --border-color: #e5e7eb;
+            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background-color: var(--bg-primary);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: var(--text-primary);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: background-color 0.2s;
+        }
+
+        .nav-link:hover {
+            background-color: var(--bg-secondary);
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-secondary {
+            background-color: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--border-color);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+            color: white;
+        }
+
+        .btn-success {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-sm {
+            padding: 0.375rem 0.75rem;
+            font-size: 0.75rem;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 4rem 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.875rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--bg-primary);
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .card-body {
+            color: var(--text-secondary);
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Course Card */
+        .course-card {
+            background-color: var(--bg-primary);
+            border-radius: 0.5rem;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+        }
+
+        .course-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .course-thumbnail {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+
+        .course-content {
+            padding: 1.5rem;
+        }
+
+        .course-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .course-instructor {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .course-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .course-price {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .badge-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .badge-secondary {
+            background-color: var(--bg-secondary);
+            color: var(--text-secondary);
+        }
+
+        .badge-success {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .badge-warning {
+            background-color: var(--warning-color);
+            color: white;
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.625rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            transition: border-color 0.2s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-control.error {
+            border-color: var(--danger-color);
+        }
+
+        .error-message {
+            color: var(--danger-color);
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-content {
+            background-color: var(--bg-primary);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            padding: 0;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Alert */
+        .alert {
+            padding: 1rem;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+        }
+
+        .alert-success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #34d399;
+        }
+
+        .alert-error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #f87171;
+        }
+
+        .alert-info {
+            background-color: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #60a5fa;
+        }
+
+        /* Loading */
+        .loading {
+            display: inline-block;
+            width: 1rem;
+            height: 1rem;
+            border: 2px solid var(--border-color);
+            border-top-color: var(--primary-color);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Hide elements */
+        .hidden {
+            display: none !important;
+        }
+
+        /* Filters */
+        .filters {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        /* Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background-color: var(--bg-primary);
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .nav-menu {
+                gap: 0.5rem;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                flex-direction: column;
+            }
+
+            .modal-content {
+                padding: 1.5rem;
+            }
+        }
+
+        /* User Role Badge */
+        .role-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .role-user {
+            background-color: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .role-premium {
+            background-color: #fef3c7;
+            color: #92400e;
+        }
+
+        .role-moderator {
+            background-color: #ddd6fe;
+            color: #5b21b6;
+        }
+
+        .role-admin {
+            background-color: #fecaca;
+            color: #991b1b;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <a href="#" class="logo" onclick="showHome(); return false;">🎓 LearnHub</a>
+            <div class="nav-menu">
+                <div id="authNav" class="hidden">
+                    <a href="#" class="nav-link" onclick="showCourses(); return false;">Courses</a>
+                    <a href="#" class="nav-link" onclick="showMyCourses(); return false;">My Courses</a>
+                    <a href="#" class="nav-link" onclick="showProfile(); return false;">Profile</a>
+                    <button class="btn btn-secondary btn-sm" onclick="logout()">Logout</button>
+                </div>
+                <div id="guestNav">
+                    <button class="btn btn-secondary btn-sm" onclick="openModal('loginModal')">Login</button>
+                    <button class="btn btn-primary btn-sm" onclick="openModal('registerModal')">Sign Up</button>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Home Page -->
+        <div id="homePage">
+            <div class="hero">
+                <h1>Learn Without Limits</h1>
+                <p>Explore thousands of courses and unlock your potential</p>
+                <button class="btn btn-primary" style="padding: 0.75rem 2rem; font-size: 1rem;" onclick="openModal('registerModal')">
+                    Get Started Free
+                </button>
+            </div>
+
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalCourses">0</div>
+                        <div class="stat-label">Available Courses</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">50+</div>
+                        <div class="stat-label">Expert Instructors</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">10k+</div>
+                        <div class="stat-label">Students Enrolled</div>
+                    </div>
+                </div>
+
+                <section class="section">
+                    <h2 class="section-title">Popular Courses</h2>
+                    <div id="featuredCourses" class="grid"></div>
+                </section>
+            </div>
+        </div>
+
+        <!-- Courses Page -->
+        <div id="coursesPage" class="hidden">
+            <div class="container">
+                <h1 class="section-title">All Courses</h1>
+                
+                <div class="filters">
+                    <div class="filter-group">
+                        <label class="form-label">Search</label>
+                        <input type="text" class="form-control" id="searchInput" placeholder="Search courses..." onkeyup="filterCourses()">
+                    </div>
+                    <div class="filter-group">
+                        <label class="form-label">Category</label>
+                        <select class="form-control" id="categoryFilter" onchange="filterCourses()">
+                            <option value="">All Categories</option>
+                            <option value="Web Development">Web Development</option>
+                            <option value="Mobile Development">Mobile Development</option>
+                            <option value="Data Science">Data Science</option>
+                            <option value="Machine Learning">Machine Learning</option>
+                            <option value="Business">Business</option>
+                            <option value="Design">Design</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Photography">Photography</option>
+                            <option value="Music">Music</option>
+                            <option value="Language Learning">Language Learning</option>
+                            <option value="Personal Development">Personal Development</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="form-label">Level</label>
+                        <select class="form-control" id="levelFilter" onchange="filterCourses()">
+                            <option value="">All Levels</option>
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label class="form-label">Sort By</label>
+                        <select class="form-control" id="sortFilter" onchange="filterCourses()">
+                            <option value="-createdAt">Newest First</option>
+                            <option value="price">Price: Low to High</option>
+                            <option value="-price">Price: High to Low</option>
+                            <option value="-rating">Highest Rated</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="allCourses" class="grid"></div>
+            </div>
+        </div>
+
+        <!-- My Courses Page -->
+        <div id="myCoursesPage" class="hidden">
+            <div class="container">
+                <h1 class="section-title">My Learning</h1>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Learning Progress</h3>
+                    </div>
+                    <div id="userStats"></div>
+                </div>
+
+                <h2 class="section-title" style="margin-top: 2rem;">Enrolled Courses</h2>
+                <div id="enrolledCourses" class="grid"></div>
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profilePage" class="hidden">
+            <div class="container">
+                <h1 class="section-title">Profile</h1>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">User Information</h3>
+                    </div>
+                    <div id="profileInfo"></div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Update Profile</h3>
+                    </div>
+                    <form id="updateProfileForm" onsubmit="updateProfile(event)">
+                        <div class="form-group">
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-control" id="profileUsername" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="profileEmail" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">First Name</label>
+                            <input type="text" class="form-control" id="profileFirstName">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-control" id="profileLastName">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Bio</label>
+                            <textarea class="form-control" id="profileBio"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Update Profile</button>
+                    </form>
+                </div>
+
+                <!-- Create Course (Premium+ only) -->
+                <div id="createCourseSection" class="card hidden">
+                    <div class="card-header">
+                        <h3 class="card-title">Create New Course</h3>
+                    </div>
+                    <button class="btn btn-primary" onclick="openModal('createCourseModal')">Create Course</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Login</h2>
+                <button class="modal-close" onclick="closeModal('loginModal')">&times;</button>
+            </div>
+            <div id="loginAlert"></div>
+            <form id="loginForm" onsubmit="login(event)">
+                <div class="form-group">
+                    <label class="form-label">Email *</label>
+                    <input type="email" class="form-control" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password *</label>
+                    <input type="password" class="form-control" id="loginPassword" required minlength="6">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
+            </form>
+            <p style="margin-top: 1rem; text-align: center; color: var(--text-secondary);">
+                Don't have an account? <a href="#" onclick="closeModal('loginModal'); openModal('registerModal'); return false;" style="color: var(--primary-color);">Sign up</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Register Modal -->
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Create Account</h2>
+                <button class="modal-close" onclick="closeModal('registerModal')">&times;</button>
+            </div>
+            <div id="registerAlert"></div>
+            <form id="registerForm" onsubmit="register(event)">
+                <div class="form-group">
+                    <label class="form-label">Username *</label>
+                    <input type="text" class="form-control" id="registerUsername" required minlength="3" maxlength="50" pattern="[a-zA-Z0-9_-]+">
+                    <small style="color: var(--text-secondary); font-size: 0.75rem;">Only letters, numbers, underscores, and hyphens</small>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Email *</label>
+                    <input type="email" class="form-control" id="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Password *</label>
+                    <input type="password" class="form-control" id="registerPassword" required minlength="6">
+                    <small style="color: var(--text-secondary); font-size: 0.75rem;">At least 6 characters with uppercase, lowercase, and number</small>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="registerFirstName">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="registerLastName">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
+            </form>
+            <p style="margin-top: 1rem; text-align: center; color: var(--text-secondary);">
+                Already have an account? <a href="#" onclick="closeModal('registerModal'); openModal('loginModal'); return false;" style="color: var(--primary-color);">Login</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Create Course Modal -->
+    <div id="createCourseModal" class="modal">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="modal-header">
+                <h2 class="modal-title">Create New Course</h2>
+                <button class="modal-close" onclick="closeModal('createCourseModal')">&times;</button>
+            </div>
+            <div id="createCourseAlert"></div>
+            <form id="createCourseForm" onsubmit="createCourse(event)">
+                <div class="form-group">
+                    <label class="form-label">Course Title *</label>
+                    <input type="text" class="form-control" id="courseTitle" required maxlength="200">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Description *</label>
+                    <textarea class="form-control" id="courseDescription" required maxlength="2000"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Category *</label>
+                    <select class="form-control" id="courseCategory" required>
+                        <option value="">Select Category</option>
+                        <option value="Web Development">Web Development</option>
+                        <option value="Mobile Development">Mobile Development</option>
+                        <option value="Data Science">Data Science</option>
+                        <option value="Machine Learning">Machine Learning</option>
+                        <option value="Business">Business</option>
+                        <option value="Design">Design</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Photography">Photography</option>
+                        <option value="Music">Music</option>
+                        <option value="Language Learning">Language Learning</option>
+                        <option value="Personal Development">Personal Development</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Level *</label>
+                    <select class="form-control" id="courseLevel" required>
+                        <option value="">Select Level</option>
+                        <option value="Beginner">Beginner</option>
+                        <option value="Intermediate">Intermediate</option>
+                        <option value="Advanced">Advanced</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Duration (hours) *</label>
+                    <input type="number" class="form-control" id="courseDuration" required min="0.5" max="1000" step="0.5">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Price ($) *</label>
+                    <input type="number" class="form-control" id="coursePrice" required min="0" step="0.01">
+                </div>
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" id="coursePremium" style="margin-right: 0.5rem;">
+                        <span>Premium Course (requires premium membership)</span>
+                    </label>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Course</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Course Details Modal -->
+    <div id="courseDetailsModal" class="modal">
+        <div class="modal-content" style="max-width: 700px;">
+            <div class="modal-header">
+                <h2 class="modal-title" id="courseDetailsTitle"></h2>
+                <button class="modal-close" onclick="closeModal('courseDetailsModal')">&times;</button>
+            </div>
+            <div id="courseDetailsContent"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5001/api';
+        let currentUser = null;
+        let authToken = null;
+        let allCoursesData = [];
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check for stored auth token
+            const storedToken = localStorage.getItem('authToken');
+            if (storedToken) {
+                authToken = storedToken;
+                fetchCurrentUser();
+            }
+            
+            // Load featured courses
+            loadFeaturedCourses();
+        });
+
+        // Authentication Functions
+        async function login(event) {
+            event.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    authToken = data.token;
+                    localStorage.setItem('authToken', authToken);
+                    currentUser = data.user;
+                    
+                    showAlert('loginAlert', 'Login successful!', 'success');
+                    setTimeout(() => {
+                        closeModal('loginModal');
+                        updateUIForAuth();
+                        showHome();
+                    }, 1000);
+                } else {
+                    showAlert('loginAlert', data.message || 'Login failed', 'error');
+                }
+            } catch (error) {
+                showAlert('loginAlert', 'Network error. Please try again.', 'error');
+            }
+        }
+
+        async function register(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('registerUsername').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const firstName = document.getElementById('registerFirstName').value;
+            const lastName = document.getElementById('registerLastName').value;
+            
+            try {
+                const response = await fetch(`${API_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username, email, password, firstName, lastName })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    authToken = data.token;
+                    localStorage.setItem('authToken', authToken);
+                    currentUser = data.user;
+                    
+                    showAlert('registerAlert', 'Account created successfully!', 'success');
+                    setTimeout(() => {
+                        closeModal('registerModal');
+                        updateUIForAuth();
+                        showHome();
+                    }, 1000);
+                } else {
+                    showAlert('registerAlert', data.message || 'Registration failed', 'error');
+                }
+            } catch (error) {
+                showAlert('registerAlert', 'Network error. Please try again.', 'error');
+            }
+        }
+
+        async function logout() {
+            try {
+                await fetch(`${API_URL}/auth/logout`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+            } catch (error) {
+                console.error('Logout error:', error);
+            }
+            
+            authToken = null;
+            currentUser = null;
+            localStorage.removeItem('authToken');
+            updateUIForGuest();
+            showHome();
+        }
+
+        async function fetchCurrentUser() {
+            try {
+                const response = await fetch(`${API_URL}/auth/me`, {
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentUser = data.data;
+                    updateUIForAuth();
+                } else {
+                    logout();
+                }
+            } catch (error) {
+                console.error('Fetch user error:', error);
+                logout();
+            }
+        }
+
+        // UI Update Functions
+        function updateUIForAuth() {
+            document.getElementById('authNav').classList.remove('hidden');
+            document.getElementById('guestNav').classList.add('hidden');
+            
+            // Show create course section for premium+ users
+            if (currentUser && ['premium', 'moderator', 'admin'].includes(currentUser.role)) {
+                const createSection = document.getElementById('createCourseSection');
+                if (createSection) {
+                    createSection.classList.remove('hidden');
+                }
+            }
+        }
+
+        function updateUIForGuest() {
+            document.getElementById('authNav').classList.add('hidden');
+            document.getElementById('guestNav').classList.remove('hidden');
+        }
+
+        // Navigation Functions
+        function showHome() {
+            hideAllPages();
+            document.getElementById('homePage').classList.remove('hidden');
+            loadFeaturedCourses();
+        }
+
+        function showCourses() {
+            hideAllPages();
+            document.getElementById('coursesPage').classList.remove('hidden');
+            loadAllCourses();
+        }
+
+        function showMyCourses() {
+            if (!currentUser) {
+                openModal('loginModal');
+                return;
+            }
+            hideAllPages();
+            document.getElementById('myCoursesPage').classList.remove('hidden');
+            loadMyCourses();
+        }
+
+        function showProfile() {
+            if (!currentUser) {
+                openModal('loginModal');
+                return;
+            }
+            hideAllPages();
+            document.getElementById('profilePage').classList.remove('hidden');
+            loadProfile();
+        }
+
+        function hideAllPages() {
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('coursesPage').classList.add('hidden');
+            document.getElementById('myCoursesPage').classList.add('hidden');
+            document.getElementById('profilePage').classList.add('hidden');
+        }
+
+        // Course Functions
+        async function loadFeaturedCourses() {
+            try {
+                const response = await fetch(`${API_URL}/courses?limit=6&sort=-rating`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('totalCourses').textContent = data.total || 0;
+                    displayCourses(data.data, 'featuredCourses');
+                }
+            } catch (error) {
+                console.error('Error loading courses:', error);
+            }
+        }
+
+        async function loadAllCourses() {
+            try {
+                const response = await fetch(`${API_URL}/courses?limit=100`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    allCoursesData = data.data;
+                    filterCourses();
+                }
+            } catch (error) {
+                console.error('Error loading courses:', error);
+            }
+        }
+
+        function filterCourses() {
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const category = document.getElementById('categoryFilter').value;
+            const level = document.getElementById('levelFilter').value;
+            const sort = document.getElementById('sortFilter').value;
+            
+            let filtered = allCoursesData.filter(course => {
+                const matchesSearch = course.title.toLowerCase().includes(search) || 
+                                     course.description.toLowerCase().includes(search);
+                const matchesCategory = !category || course.category === category;
+                const matchesLevel = !level || course.level === level;
+                
+                return matchesSearch && matchesCategory && matchesLevel;
+            });
+            
+            // Sort
+            if (sort === 'price') {
+                filtered.sort((a, b) => a.price - b.price);
+            } else if (sort === '-price') {
+                filtered.sort((a, b) => b.price - a.price);
+            } else if (sort === '-rating') {
+                filtered.sort((a, b) => b.rating - a.rating);
+            }
+            
+            displayCourses(filtered, 'allCourses');
+        }
+
+        function displayCourses(courses, containerId) {
+            const container = document.getElementById(containerId);
+            
+            if (!courses || courses.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📚</div>
+                        <p>No courses found</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = courses.map(course => `
+                <div class="course-card" onclick="showCourseDetails('${course._id}')">
+                    <div class="course-thumbnail">📚</div>
+                    <div class="course-content">
+                        <h3 class="course-title">${escapeHtml(course.title)}</h3>
+                        <p class="course-instructor">By ${escapeHtml(course.instructorName)}</p>
+                        <div style="display: flex; gap: 0.5rem; margin: 0.5rem 0;">
+                            <span class="badge badge-secondary">${escapeHtml(course.category)}</span>
+                            <span class="badge badge-secondary">${escapeHtml(course.level)}</span>
+                            ${course.isPremium ? '<span class="badge badge-warning">Premium</span>' : ''}
+                        </div>
+                        <p style="color: var(--text-secondary); font-size: 0.875rem; margin-top: 0.5rem;">
+                            ⭐ ${course.rating.toFixed(1)} (${course.numberOfReviews} reviews) • ${course.duration}h
+                        </p>
+                        <div class="course-meta">
+                            <span class="course-price">$${course.price.toFixed(2)}</span>
+                            <span class="badge badge-success">${course.enrolledStudents?.length || 0} enrolled</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function showCourseDetails(courseId) {
+            try {
+                const headers = {};
+                if (authToken) {
+                    headers['Authorization'] = `Bearer ${authToken}`;
+                }
+                
+                const response = await fetch(`${API_URL}/courses/${courseId}`, { headers });
+                const data = await response.json();
+                
+                if (data.success) {
+                    const course = data.data;
+                    const isEnrolled = currentUser?.enrolledCourses?.some(c => c === courseId);
+                    const isCompleted = currentUser?.completedCourses?.some(c => c === courseId);
+                    
+                    document.getElementById('courseDetailsTitle').textContent = course.title;
+                    document.getElementById('courseDetailsContent').innerHTML = `
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem;">
+                                <span class="badge badge-secondary">${escapeHtml(course.category)}</span>
+                                <span class="badge badge-secondary">${escapeHtml(course.level)}</span>
+                                ${course.isPremium ? '<span class="badge badge-warning">Premium</span>' : ''}
+                                ${isCompleted ? '<span class="badge badge-success">Completed</span>' : ''}
+                            </div>
+                            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                                By ${escapeHtml(course.instructorName)} • ⭐ ${course.rating.toFixed(1)} (${course.numberOfReviews} reviews)
+                            </p>
+                            <p style="margin-bottom: 1rem;">${escapeHtml(course.description)}</p>
+                            <div style="display: flex; gap: 2rem; margin-bottom: 1rem; color: var(--text-secondary); font-size: 0.875rem;">
+                                <span>⏱️ ${course.duration} hours</span>
+                                <span>👥 ${course.enrolledStudents?.length || 0} students</span>
+                                <span>💰 $${course.price.toFixed(2)}</span>
+                            </div>
+                            
+                            ${!currentUser ? `
+                                <div class="alert alert-info">
+                                    <a href="#" onclick="closeModal('courseDetailsModal'); openModal('loginModal'); return false;" style="color: var(--primary-color);">Login</a> to enroll in this course
+                                </div>
+                            ` : isEnrolled ? `
+                                <div style="display: flex; gap: 1rem;">
+                                    ${!isCompleted ? `
+                                        <button class="btn btn-success" onclick="markCourseComplete('${course._id}')">
+                                            Mark as Complete
+                                        </button>
+                                    ` : ''}
+                                    <button class="btn btn-danger" onclick="unenrollCourse('${course._id}')">
+                                        Unenroll
+                                    </button>
+                                </div>
+                            ` : `
+                                <button class="btn btn-primary" onclick="enrollCourse('${course._id}')">
+                                    Enroll Now
+                                </button>
+                            `}
+                        </div>
+                        
+                        ${course.learningOutcomes && course.learningOutcomes.length > 0 ? `
+                            <div style="margin-bottom: 1.5rem;">
+                                <h3 style="margin-bottom: 0.5rem;">What you'll learn</h3>
+                                <ul style="margin-left: 1.5rem; color: var(--text-secondary);">
+                                    ${course.learningOutcomes.map(outcome => `<li>${escapeHtml(outcome)}</li>`).join('')}
+                                </ul>
+                            </div>
+                        ` : ''}
+                        
+                        ${course.reviews && course.reviews.length > 0 ? `
+                            <div>
+                                <h3 style="margin-bottom: 1rem;">Reviews</h3>
+                                ${course.reviews.slice(0, 5).map(review => `
+                                    <div style="margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color);">
+                                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                                            <strong>${escapeHtml(review.username)}</strong>
+                                            <span style="color: var(--warning-color);">⭐ ${review.rating}</span>
+                                        </div>
+                                        ${review.comment ? `<p style="color: var(--text-secondary);">${escapeHtml(review.comment)}</p>` : ''}
+                                    </div>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    `;
+                    
+                    openModal('courseDetailsModal');
+                }
+            } catch (error) {
+                console.error('Error loading course details:', error);
+            }
+        }
+
+        async function enrollCourse(courseId) {
+            if (!authToken) {
+                openModal('loginModal');
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/courses/${courseId}/enroll`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Successfully enrolled in course!');
+                    closeModal('courseDetailsModal');
+                    fetchCurrentUser();
+                } else {
+                    alert(data.message || 'Enrollment failed');
+                }
+            } catch (error) {
+                alert('Network error. Please try again.');
+            }
+        }
+
+        async function unenrollCourse(courseId) {
+            if (!confirm('Are you sure you want to unenroll from this course?')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`${API_URL}/courses/${courseId}/enroll`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Successfully unenrolled from course');
+                    closeModal('courseDetailsModal');
+                    fetchCurrentUser();
+                    loadMyCourses();
+                } else {
+                    alert(data.message || 'Unenroll failed');
+                }
+            } catch (error) {
+                alert('Network error. Please try again.');
+            }
+        }
+
+        async function markCourseComplete(courseId) {
+            try {
+                const response = await fetch(`${API_URL}/courses/${courseId}/complete`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${authToken}`
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    alert('Congratulations! Course marked as complete. ' + 
+                          (data.certificateAvailable ? 'Your certificate is now available!' : ''));
+                    closeModal('courseDetailsModal');
+                    fetchCurrentUser();
+                    loadMyCourses();
+                } else {
+                    alert(data.message || 'Failed to mark course as complete');
+                }
+            } catch (error) {
+                alert('Network error. Please try again.');
+            }
+        }
+
+        async function createCourse(event) {
+            event.preventDefault();
+            
+            const courseData = {
+                title: document.getElementById('courseTitle').value,
+                description: document.getElementById('courseDescription').value,
+                category: document.getElementById('courseCategory').value,
+                level: document.getElementById('courseLevel').value,
+                duration: parseFloat(document.getElementById('courseDuration').value),
+                price: parseFloat(document.getElementById('coursePrice').value),
+                isPremium: document.getElementById('coursePremium').checked
+            };
+            
+            try {
+                const response = await fetch(`${API_URL}/courses`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(courseData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showAlert('createCourseAlert', 'Course created successfully!', 'success');
+                    setTimeout(() => {
+                        closeModal('createCourseModal');
+                        document.getElementById('createCourseForm').reset();
+                        loadAllCourses();
+                    }, 1000);
+                } else {
+                    showAlert('createCourseAlert', data.message || 'Course creation failed', 'error');
+                }
+            } catch (error) {
+                showAlert('createCourseAlert', 'Network error. Please try again.', 'error');
+            }
+        }
+
+        async function loadMyCourses() {
+            try {
+                const [coursesResponse, statsResponse] = await Promise.all([
+                    fetch(`${API_URL}/users/my-courses`, {
+                        headers: { 'Authorization': `Bearer ${authToken}` }
+                    }),
+                    fetch(`${API_URL}/users/stats`, {
+                        headers: { 'Authorization': `Bearer ${authToken}` }
+                    })
+                ]);
+                
+                const coursesData = await coursesResponse.json();
+                const statsData = await statsResponse.json();
+                
+                if (statsData.success) {
+                    const stats = statsData.data;
+                    document.getElementById('userStats').innerHTML = `
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value">${stats.totalEnrolled}</div>
+                                <div class="stat-label">Enrolled Courses</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">${stats.inProgress}</div>
+                                <div class="stat-label">In Progress</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value">${stats.totalCompleted}</div>
+                                <div class="stat-label">Completed</div>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                if (coursesData.success) {
+                    displayCourses(coursesData.data, 'enrolledCourses');
+                }
+            } catch (error) {
+                console.error('Error loading my courses:', error);
+            }
+        }
+
+        async function loadProfile() {
+            try {
+                const response = await fetch(`${API_URL}/users/profile`, {
+                    headers: { 'Authorization': `Bearer ${authToken}` }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    const user = data.data;
+                    
+                    document.getElementById('profileInfo').innerHTML = `
+                        <div style="display: grid; gap: 1rem;">
+                            <div>
+                                <strong>Username:</strong> ${escapeHtml(user.username)}
+                            </div>
+                            <div>
+                                <strong>Email:</strong> ${escapeHtml(user.email)}
+                            </div>
+                            <div>
+                                <strong>Role:</strong> <span class="role-badge role-${user.role}">${user.role}</span>
+                            </div>
+                            ${user.firstName ? `<div><strong>Name:</strong> ${escapeHtml(user.firstName)} ${escapeHtml(user.lastName || '')}</div>` : ''}
+                            ${user.bio ? `<div><strong>Bio:</strong> ${escapeHtml(user.bio)}</div>` : ''}
+                            <div>
+                                <strong>Member Since:</strong> ${new Date(user.createdAt).toLocaleDateString()}
+                            </div>
+                        </div>
+                    `;
+                    
+                    // Populate form
+                    document.getElementById('profileUsername').value = user.username;
+                    document.getElementById('profileEmail').value = user.email;
+                    document.getElementById('profileFirstName').value = user.firstName || '';
+                    document.getElementById('profileLastName').value = user.lastName || '';
+                    document.getElementById('profileBio').value = user.bio || '';
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+            }
+        }
+
+        async function updateProfile(event) {
+            event.preventDefault();
+            
+            const profileData = {
+                username: document.getElementById('profileUsername').value,
+                email: document.getElementById('profileEmail').value,
+                firstName: document.getElementById('profileFirstName').value,
+                lastName: document.getElementById('profileLastName').value,
+                bio: document.getElementById('profileBio').value
+            };
+            
+            try {
+                const response = await fetch(`${API_URL}/users/profile`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${authToken}`
+                    },
+                    body: JSON.stringify(profileData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentUser = data.data;
+                    alert('Profile updated successfully!');
+                    loadProfile();
+                } else {
+                    alert(data.message || 'Profile update failed');
+                }
+            } catch (error) {
+                alert('Network error. Please try again.');
+            }
+        }
+
+        // Modal Functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Alert Functions
+        function showAlert(containerId, message, type) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = `
+                <div class="alert alert-${type}">
+                    ${escapeHtml(message)}
+                </div>
+            `;
+        }
+
+        // Utility Functions
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text ? text.toString().replace(/[&<>"']/g, m => map[m]) : '';
+        }
+
+        // Close modals on outside click
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+</html>
