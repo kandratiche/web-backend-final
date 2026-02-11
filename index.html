@@ -861,7 +861,7 @@
             // Check for stored auth token
             const storedToken = localStorage.getItem('authToken');
             if (storedToken) {
-                authToken = storedToken;
+                authToken = storedToken
                 fetchCurrentUser();
             }
             
@@ -1061,9 +1061,9 @@
 
         async function loadAllCourses() {
             try {
-                const response = await fetch(`${API_URL}/courses?limit=100`);
+                const response = await fetch(`${API_URL}/courses`);
                 const data = await response.json();
-                
+
                 if (data.success) {
                     allCoursesData = data.data;
                     filterCourses();
@@ -1102,7 +1102,6 @@
 
         function displayCourses(courses, containerId) {
             const container = document.getElementById(containerId);
-            
             if (!courses || courses.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
@@ -1231,6 +1230,7 @@
             }
             
             try {
+
                 const response = await fetch(`${API_URL}/courses/${courseId}/enroll`, {
                     method: 'POST',
                     headers: {

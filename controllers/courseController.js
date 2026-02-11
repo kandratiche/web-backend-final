@@ -60,6 +60,7 @@ exports.getCourses = async (req, res, next) => {
       .limit(limit)
       .skip(startIndex);
 
+    console.log(courses);
     const total = await Course.countDocuments(query);
 
     res.status(200).json({
@@ -173,70 +174,28 @@ exports.deleteCourse = async (req, res, next) => {
   }
 };
 
-exports.enrollCourse = async (req, res, next) => {
-  try {
-    const course = await Course.findById(req.params.id);
+exports.enrollCourse = async (req, res) => {
+  const course = await Course.findById(req.params.id);
+  console.log("USER:", req.user);
 
-    if (!course) {
-      return res.status(404).json({
-        success: false,
-        message: 'Course not found'
-      });
-    }
+  if (!course) {
+    return res.status(404).json({ success: false, message: "Course not found" });
+  }
 
-    if (!course.isPublished) {
-      return res.status(400).json({
-        success: false,
-        message: 'Cannot enroll in unpublished course'
-      });
-    }
+  if (!course.enrolledStudents.includes(req.user._id)) {
+    course.enrolledStudents.push(req.user._id);
+    await course.save();
+  }
 
-    const user = await User.findById(req.user._id);
-    if (user.enrolledCourses.includes(course._id)) {
-      return res.status(400).json({
-        success: false,
-        message: 'Already enrolled in this course'
-      });
-    }
-
-    if (course.isPremium && req.user.role === 'user') {
-      return res.status(403).json({
-        success: false,
-        message: 'Premium membership required to enroll in this course'
-      });
-    }
-
+  const user = await User.findById(req.user._id);
+  if (!user.enrolledCourses.includes(course._id)) {
     user.enrolledCourses.push(course._id);
     await user.save();
-
-    course.enrolledStudents.push(user._id);
-    await course.save();
-
-    try {
-      await sendEmail({
-        email: user.email,
-        subject: `Successfully Enrolled in ${course.title}`,
-        message: `Congratulations! You have successfully enrolled in "${course.title}".\n\nStart learning today and achieve your goals!\n\nBest regards,\nThe Learning Platform Team`,
-        html: `
-          <h2>Enrollment Confirmation</h2>
-          <p>Congratulations! You have successfully enrolled in <strong>${course.title}</strong>.</p>
-          <p>Start learning today and achieve your goals!</p>
-          <p>Best regards,<br>The Learning Platform Team</p>
-        `
-      });
-    } catch (emailError) {
-      console.error('Enrollment email failed:', emailError.message);
-    }
-
-    res.status(200).json({
-      success: true,
-      message: 'Successfully enrolled in course',
-      data: course
-    });
-  } catch (error) {
-    next(error);
   }
+
+  res.json({ success: true });
 };
+
 
 exports.unenrollCourse = async (req, res, next) => {
   try {
